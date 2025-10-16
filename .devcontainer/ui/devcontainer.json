@@ -1,0 +1,13 @@
+{
+    "name": "GoDo UI",
+    "dockerComposeFile": "../compose.yml",
+    "service": "ui",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "svelte.svelte-vscode"
+            ]
+        }
+    }
+}

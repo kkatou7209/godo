@@ -1,0 +1,13 @@
+{
+    "name": "GoDo App",
+    "dockerComposeFile": "../compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.go"
+            ]
+        }
+    }
+}

@@ -1,0 +1,44 @@
+name: godo
+
+services:
+  app:
+    container_name: godo-app
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    working_dir: /workspace
+    volumes:
+      - ../app:/workspace:cached
+    environment:
+      DATABASE_URL: postgres://godo_dev_user:godo_dev_pass@postgres:5432/godo_dev
+      TEST_DATABASE_URL: postgres://godo_test_user:godo_test_pass@postgres:5432/godo_test
+    networks:
+      - godo-net
+    tty: true
+
+  ui:
+    container_name: godo-ui
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    working_dir: /workspace
+    volumes:
+      - ../ui:/workspace:cached
+    tty: true
+
+  postgres:
+    container_name: godo-postgres
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - godo-pgdata:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    networks:
+      - godo-net
+
+volumes:
+  godo-pgdata:
+
+networks:
+  godo-net:
