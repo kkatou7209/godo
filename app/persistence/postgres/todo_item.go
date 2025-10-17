@@ -48,7 +48,7 @@ func (r *TodoItemRepository) Create(todo *dto.CreateTodoCommand) error {
 		INSERT INTO todo_items (
 			id, title, description, is_done, user_id
 		) 
-		VALUES ($1, $2, $3, $4)`,
+		VALUES ($1, $2, $3, $4, $5)`,
 		uuid.NewString(),
 		todo.Title.Value(),
 		todo.Description.Value(),
@@ -142,7 +142,7 @@ func (r *TodoItemRepository) List(userId value.UserId) ([]*entity.TodoItem, erro
 
 	if rows.Next() {
 
-		err = rows.Scan(&id, &title, &description, &isDone, &userId)
+		err = rows.Scan(&id, &title, &description, &isDone)
 
 		if err != nil {
 			return nil, err
@@ -155,6 +155,7 @@ func (r *TodoItemRepository) List(userId value.UserId) ([]*entity.TodoItem, erro
 			isDone,
 			userId,
 		))
+
 	} else {
 		return nil, nil
 	}
@@ -190,12 +191,12 @@ func (r *TodoItemRepository) Update(todo *entity.TodoItem) error {
 
 	_, err = tran.Exec(ctx, `
 		UPDATE todo_items
-		SET title = $2, description = $3, is_done = $3
-		WHERE id = $1`,
-		todo.Id().Value(),
+		SET title = $1, description = $2, is_done = $3
+		WHERE id = $4`,
 		todo.Title().Value(),
 		todo.Description().Value(),
 		todo.IsDone(),
+		todo.Id().Value(),
 	)
 	
 	return err

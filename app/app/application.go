@@ -20,8 +20,8 @@ type Application struct {
 	passwordHasher password.PasswordHasher
 }
 
-func New() Application {
-	return Application{
+func New() *Application {
+	return &Application{
 		createTodoPersistence: nil,
 		listTodoPersistence: nil,
 		updateTodoPersistence: nil,
