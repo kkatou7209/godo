@@ -94,7 +94,7 @@ func NewUpdateTodoService(updateTodoPersistence persistence.UpdateTodoPersistenc
 	return &UpdateTodoService{updateTodoPersistence, getTodoPersistence}
 }
 
-func (s *UpdateTodoService) Update(todoDto *inDto.TodoItemDto) error {
+func (s *UpdateTodoService) Update(todoDto *inDto.UpdateTodoCommand) error {
 
 	todo, err := s.getTodoPersistence.Get(value.NewTodoItemId(todoDto.Id))
 
@@ -110,7 +110,8 @@ func (s *UpdateTodoService) Update(todoDto *inDto.TodoItemDto) error {
 		return errors.New("title cannot be empty")
 	}
 
-	if todo.UserId() != value.NewUserId(todoDto.Id) {
+	
+	if todo.UserId() != value.NewUserId(todoDto.UserId) {
 		return validation.ErrInvalidUser
 	}
 

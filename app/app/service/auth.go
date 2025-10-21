@@ -1,13 +1,12 @@
 package service
 
 import (
-	"errors"
-
 	"github.com/kkatou7209/godo/app/domain/value"
 	"github.com/kkatou7209/godo/app/port/in/dto"
 	inDto "github.com/kkatou7209/godo/app/port/in/dto"
 	"github.com/kkatou7209/godo/app/port/out/password"
 	"github.com/kkatou7209/godo/app/port/out/persistence"
+	"github.com/kkatou7209/godo/app/validation"
 )
 
 // LoginUsecase implementation.
@@ -34,8 +33,12 @@ func (s *LoginService) Login(credential *inDto.LoginCommand) (*dto.UserDto, erro
 		return nil, err
 	}
 
+	if user == nil {
+		return nil, validation.ErrUserNotFound
+	}
+
 	if !s.passwordHasher.Verify(credential.Password, user.Password().Value()) {
-		return nil, errors.New("invalid password")
+		return nil, validation.ErrInvalidPassword
 	}
 
 	return &dto.UserDto{

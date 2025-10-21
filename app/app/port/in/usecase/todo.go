@@ -19,7 +19,7 @@ type ListTodoUsecase interface {
 
 type UpdateTodoUsecase interface {
 	// Update todo.
-	Update(*dto.TodoItemDto) error
+	Update(*dto.UpdateTodoCommand) error
 }
 
 type CompleteTodoUsecase interface {

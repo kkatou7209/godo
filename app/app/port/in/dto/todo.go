@@ -13,3 +13,10 @@ type AddTodoCommand struct {
 	Title string
 	Description string
 }
+
+type UpdateTodoCommand struct {
+	Id string
+	Title string
+	Description string
+	UserId string
+}

@@ -38,6 +38,7 @@ func (s *AddUserService) Add(user *inDto.AddUserCommand) error {
 	if err != nil {
 		return err
 	}
+	
 	return s.createUserPersistence.Create(&outDto.CreateUserCommand{
 		UserName: value.NewUserName(user.UserName),
 		Email: value.NewEmail(user.Email),

@@ -54,14 +54,13 @@ var _ = Describe("postgres repository test", Ordered, func() {
 		})
 
 		When("updating user", func() {
-			BeforeAll(func() {
+			
+			It("should have updated values", func() {
 				user.ChangeEmail("another@example.com")
 				user.ChangePassword("test-password-02")
 				err = userRepository.Update(user)
+				
 				Expect(err).To(BeNil())
-			})
-
-			It("should have updated values", func() {
 				updatedUser, _ := userRepository.GetById(userId)
 				Expect(updatedUser.Email()).To(Equal(value.NewEmail("another@example.com")))
 				Expect(updatedUser.Password()).To(Equal(value.NewPassword("test-password-02")))
